@@ -1,0 +1,10 @@
+apiVersion: 1
+providers:
+  - name: Ergon Energy
+    orgId: 1
+    folder: Energy
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards

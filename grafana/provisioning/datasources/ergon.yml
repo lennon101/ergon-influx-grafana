@@ -1,0 +1,21 @@
+# OPTIONAL. Only useful if you can mount files into your existing Grafana.
+# If you added the datasource through the Grafana UI instead, ignore this file:
+# the dashboard picks its datasource from a variable, so the UID need not match.
+#
+# INFLUX_TOKEN must exist in the Grafana container's environment for the
+# ${INFLUX_TOKEN} expansion below to resolve.
+apiVersion: 1
+datasources:
+  - name: InfluxDB-Ergon
+    uid: ergon-influx
+    type: influxdb
+    access: proxy
+    url: http://192.168.1.22:8086
+    isDefault: false
+    jsonData:
+      version: Flux
+      organization: home
+      defaultBucket: ergon-data
+      tlsSkipVerify: true
+    secureJsonData:
+      token: ${INFLUX_TOKEN}

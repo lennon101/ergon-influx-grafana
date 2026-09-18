@@ -1,0 +1,21 @@
+# InfluxDB and Grafana are NOT defined here: this stack assumes you already run
+# them elsewhere. This file only runs the one-shot importer, using a stock
+# python image so there is no image to build.
+services:
+  importer:
+    image: python:3.12-slim
+    container_name: ergon-importer
+    restart: "no"
+    working_dir: /app
+    command: ["python", "/app/importer.py"]
+    volumes:
+      - ./importer:/app:ro
+      - ./data:/data:ro
+    environment:
+      INFLUX_URL: ${INFLUX_URL:-http://192.168.1.22:8086}
+      INFLUX_TOKEN: ${INFLUX_TOKEN:-}
+      INFLUX_ORG: ${INFLUX_ORG:-home}
+      INFLUX_BUCKET: ${INFLUX_BUCKET:-ergon-data}
+      TZ: ${TZ:-Australia/Brisbane}
+      # Set DRY_RUN=1 to parse and summarise without writing.
+      DRY_RUN: ${DRY_RUN:-}
